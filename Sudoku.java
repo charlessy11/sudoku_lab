@@ -76,13 +76,17 @@ public class Sudoku {
     public boolean solve(){
         for (int row = 0; row < SIZE; row++){
             for (int col = 0; col < SIZE; col++){
+                //search for empty (0) cell
                 if (board[row][col] == AVAIL){
-                    for (int num = 1; num < SIZE; num++){
+                    //attempt to input all possible numbers
+                    for (int num = 1; num <= SIZE; num++){
+                        //number input is valid
                         if (isSafe(row, col, num)){
                             board[row][col] = num;
-
+                            //backtracking recursively
                             if (solve()){
                                 return true;
+                                //set cell to empty (0) and continue
                             } else{
                                 board[row][col] = AVAIL;
                             }
@@ -92,8 +96,10 @@ public class Sudoku {
                 }
             }
         }
+        //board solved
         return true;
     }
+    //method to print board
     public void printBoard(){
         for (int i = 0; i < SIZE; i++){
             for (int j = 0; j < SIZE; j++){
@@ -106,13 +112,10 @@ public class Sudoku {
     public static void main(String[] args){
         Sudoku sudoku = new Sudoku(solveSudokuBoard);
         sudoku.printBoard();
-        sudoku.solve();
-        sudoku.printBoard();
-//        if (sudoku.solve()){
-//            sudoku.printBoard();
-//        } else{
-//            System.out.println("abcde");
-//        }
-
+        if (sudoku.solve()){
+            sudoku.printBoard();
+        } else{
+            System.out.println("Unsolvable");
+        }
     }
 }
