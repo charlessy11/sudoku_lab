@@ -1,28 +1,17 @@
 import java.util.*;
 
 public class Sudoku {
-    //set a 2D array sudoku board to be solved
-    public static int[][] solveSudokuBoard = {
-            {9,0,0,1,0,0,0,0,5},
-            {0,0,5,0,9,0,2,0,1},
-            {8,0,0,0,4,0,0,0,0},
-            {0,0,0,0,8,0,0,0,0},
-            {0,0,0,7,0,0,0,0,0},
-            {0,0,0,0,2,6,0,0,9},
-            {2,0,0,3,0,0,0,0,6},
-            {0,0,0,2,0,0,9,0,0},
-            {0,0,1,9,0,4,5,7,0},
-    };
+
     //initialize variables
     private int[][] board;
     public static final int AVAIL=0;
     public static final int SIZE=9;
 
-    public Sudoku(int[][] board1){
+    public Sudoku(int[][] board){
         this.board = new int[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++){
             for (int j = 0; j < SIZE; j++){
-                this.board[i][j] = board1[i][j];
+                this.board[i][j] = board[i][j];
             }
         }
 
@@ -86,7 +75,7 @@ public class Sudoku {
                             //backtracking recursively
                             if (solve()){
                                 return true;
-                                //set cell to empty (0) and continue
+                            //set cell to empty (0) and continue
                             } else{
                                 board[row][col] = AVAIL;
                             }
@@ -110,12 +99,27 @@ public class Sudoku {
         System.out.println();
     }
     public static void main(String[] args){
+        //get partially filled user input for sudoku board
+        System.out.println("Enter number per cell.\nClick on the space bar to type next number.\nClick on enter after inputting 9 values in a row\n90 Input missing cells as '0'");
+        Scanner scan = new Scanner(System.in);
+        int[][] solveSudokuBoard = new int[SIZE][SIZE];
+        for (int row = 0; row < solveSudokuBoard.length; row++){
+            for (int col = 0; col < solveSudokuBoard[row].length; col++){
+                solveSudokuBoard[row][col] = scan.nextInt();
+            }
+        }
+
         Sudoku sudoku = new Sudoku(solveSudokuBoard);
+        System.out.println();
+        System.out.println("Partially filled board entered by user:");
         sudoku.printBoard();
         if (sudoku.solve()){
+            System.out.println();
+            System.out.println("Sudoku board solved:");
             sudoku.printBoard();
         } else{
             System.out.println("Unsolvable");
         }
     }
 }
+
